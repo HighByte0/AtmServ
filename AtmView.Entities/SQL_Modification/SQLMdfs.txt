@@ -1,0 +1,1482 @@
+﻿USE [AtmViewV00]
+GO
+/****** Object:  Table [dbo].[RecoParams]    Script Date: 01/10/2024 14:19:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoParams](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FileType] [varchar](255) NULL,
+	[ParsingMethode] [varchar](255) NULL,
+	[Features] [text] NULL,
+	[DetailTrans] [text] NULL,
+	[Active] [bit] NULL,
+ CONSTRAINT [PK__RecoPara__3214EC2769ADCE20] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoParams_TransationType]    Script Date: 01/10/2024 14:19:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoParams_TransationType](
+	[RecoParamsId] [int] NOT NULL,
+	[TransationTypeId] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_RecoParams_TransationType_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoTransactionType]    Script Date: 01/10/2024 14:19:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoTransactionType](
+	[Id] [int] NOT NULL,
+	[TransactionCode] [nvarchar](50) NULL,
+	[Description] [nvarchar](max) NULL,
+	[Label] [nvarchar](250) NULL,
+	[Label_fr] [nvarchar](250) NULL,
+	[Color] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[RecoParams] ON 
+GO
+INSERT [dbo].[RecoParams] ([ID], [FileType], [ParsingMethode], [Features], [DetailTrans], [Active]) VALUES (1, N'TransactionFiles_SelectSystem', N'Parsefhostfile', N'AtmID,TransactionNumber,Amount', NULL, 1)
+GO
+INSERT [dbo].[RecoParams] ([ID], [FileType], [ParsingMethode], [Features], [DetailTrans], [Active]) VALUES (2, N'TransactionFiles_Payway', N'parseRecGABfile', N'AtmID,CardNumber,Amount,AuthorizationNumber', NULL, 0)
+GO
+INSERT [dbo].[RecoParams] ([ID], [FileType], [ParsingMethode], [Features], [DetailTrans], [Active]) VALUES (3, N'Lis_SW', N'ParseHostFilesLISSW', N'CardNumber,AuthorizationNumber,Amount,TransactionDate', NULL, 0)
+GO
+INSERT [dbo].[RecoParams] ([ID], [FileType], [ParsingMethode], [Features], [DetailTrans], [Active]) VALUES (4, N'Lis_PR', N'ParseHostFilesLISPR', N'TransactionDate,CardNumber,Amount,AuthorizationNumber', NULL, 0)
+GO
+INSERT [dbo].[RecoParams] ([ID], [FileType], [ParsingMethode], [Features], [DetailTrans], [Active]) VALUES (5, N'Lis_PaiementTrxs', N'PaiementTrxs', N'CardNumber,AuthorizationNumber,Amount,TransactionDate,currency', NULL, 0)
+GO
+SET IDENTITY_INSERT [dbo].[RecoParams] OFF
+GO
+SET IDENTITY_INSERT [dbo].[RecoParams_TransationType] ON 
+GO
+INSERT [dbo].[RecoParams_TransationType] ([RecoParamsId], [TransationTypeId], [Id]) VALUES (1, 1, 1)
+GO
+INSERT [dbo].[RecoParams_TransationType] ([RecoParamsId], [TransationTypeId], [Id]) VALUES (1, 2, 2)
+GO
+INSERT [dbo].[RecoParams_TransationType] ([RecoParamsId], [TransationTypeId], [Id]) VALUES (2, 1, 5)
+GO
+INSERT [dbo].[RecoParams_TransationType] ([RecoParamsId], [TransationTypeId], [Id]) VALUES (2, 4, 7)
+GO
+SET IDENTITY_INSERT [dbo].[RecoParams_TransationType] OFF
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (1, N'05', N'Purchase made using an ATM', N'ATM Purchase', N'Achat sur GAB', N'#FF5733')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (2, N'15', N'Chargeback of a purchase made using an ATM', N'Chargeback ATM Purchase', N'Chargeback Achat sur GAB', N'#C70039')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (3, N'25', N'Adjustment of a purchase made using an ATM', N'Adjustment ATM Purchase', N'Redressement Achat sur GAB', N'#900C3F')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (4, N'35', N'Adjustment of a chargeback for a purchase made using an ATM', N'Adjustment Chargeback ATM Purchase', N'Redressement Chargeback Achat sur GAB', N'#581845')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (5, N'45', N'Representation of a purchase made using an ATM', N'Representation ATM Purchase', N'Représentation Achat sur GAB', N'#3B0A47')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (6, N'55', N'Adjustment of representation for a purchase made using an ATM', N'Adjustment Representation ATM Purchase', N'Redressement Représentation Achat sur GAB', N'#0A0A0A')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (7, N'65', N'Credit adjustment for a purchase made using an ATM', N'Credit Adjustment ATM Purchase', N'Ajustement Crédit Achat sur GAB', N'#004D40')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (8, N'75', N'Debit adjustment for a purchase made using an ATM', N'Debit Adjustment ATM Purchase', N'Ajustement Débit Achat sur GAB', N'#1B5E20')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (9, N'07', N'Cash transaction', N'Cash', N'Cash', N'#FF5733')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (10, N'17', N'Chargeback of a cash transaction', N'Chargeback Cash', N'Chargeback Cash', N'#C70039')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (11, N'27', N'Adjustment of a cash transaction', N'Adjustment Cash', N'Redressement Cash', N'#900C3F')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (12, N'37', N'Adjustment of a chargeback for a cash transaction', N'Adjustment Chargeback Cash', N'Redressement Chargeback Cash', N'#581845')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (13, N'47', N'Representation of a cash transaction', N'Representation Cash', N'Représentation Cash', N'#3B0A47')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (14, N'57', N'Adjustment of representation for a cash transaction', N'Adjustment Representation Cash', N'Redressement Représentation Cash', N'#0A0A0A')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (15, N'08', N'Withdrawal transaction', N'Withdrawal', N'Retrait', N'#004D40')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (16, N'18', N'Chargeback of a withdrawal transaction', N'Chargeback Withdrawal', N'Chargeback Retrait', N'#1B5E20')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (17, N'28', N'Adjustment of a withdrawal transaction', N'Adjustment Withdrawal', N'Redressement Retrait', N'#FF5733')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (18, N'38', N'Adjustment of a chargeback for a withdrawal transaction', N'Adjustment Chargeback Withdrawal', N'Redressement Chargeback Retrait', N'#C70039')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (19, N'48', N'Representation of a withdrawal transaction', N'Representation Withdrawal', N'Représentation Retrait', N'#900C3F')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (20, N'58', N'Adjustment of representation for a withdrawal transaction', N'Adjustment Representation Withdrawal', N'Redressement Représentation Retrait', N'#581845')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (21, N'68', N'Credit adjustment for a withdrawal transaction', N'Credit Adjustment Withdrawal', N'Ajustement Crédit Retrait', N'#3B0A47')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (22, N'78', N'Debit adjustment for a withdrawal transaction', N'Debit Adjustment Withdrawal', N'Ajustement Débit Retrait', N'#0A0A0A')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (23, N'02', N'Purchase transaction', N'Purchase', N'Achat', N'#004D40')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (24, N'12', N'Chargeback of a purchase transaction', N'Chargeback Purchase', N'Chargeback Achat', N'#1B5E20')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (25, N'22', N'Adjustment of a purchase transaction', N'Adjustment Purchase', N'Redressement Achat', N'#FF5733')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (26, N'32', N'Adjustment of a chargeback for a purchase transaction', N'Adjustment Chargeback Purchase', N'Redressement Chargeback Achat', N'#C70039')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (27, N'42', N'Representation of a purchase transaction', N'Representation Purchase', N'Représentation Achat', N'#900C3F')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (28, N'52', N'Adjustment of representation for a purchase transaction', N'Adjustment Representation Purchase', N'Redressement Représentation Achat', N'#581845')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (29, N'03', N'Credit voucher transaction', N'Credit Voucher', N'Bon de Crédit', N'#3B0A47')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (30, N'13', N'Chargeback of a credit voucher transaction', N'Chargeback Credit Voucher', N'Chargeback Bon de Crédit', N'#0A0A0A')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (31, N'23', N'Adjustment of a credit voucher transaction', N'Adjustment Credit Voucher', N'Redressement Bon de Crédit', N'#004D40')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (32, N'33', N'Adjustment of a chargeback for a credit voucher transaction', N'Adjustment Chargeback Credit Voucher', N'Redressement Chargeback Bon de Crédit', N'#1B5E20')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (33, N'43', N'Representation of a credit voucher transaction', N'Representation Credit Voucher', N'Représentation Bon de Crédit', N'#FF5733')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (34, N'53', N'Adjustment of representation for a credit voucher transaction', N'Adjustment Representation Credit Voucher', N'Redressement Représentation Bon de Crédit', N'#C70039')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (35, N'00', N'Funds availability transaction', N'Funds Availability', N'Mise à Disposition', N'#365260')
+GO
+INSERT [dbo].[RecoTransactionType] ([Id], [TransactionCode], [Description], [Label], [Label_fr], [Color]) VALUES (36, N'01', N'Cardless withdrawal transaction', N'Cardless Withdrawal', N'Retrait Cardless', N'#363060')
+GO
+ALTER TABLE [dbo].[RecoParams] ADD  DEFAULT ((0)) FOR [Active]
+GO
+ALTER TABLE [dbo].[RecoParams_TransationType]  WITH CHECK ADD FOREIGN KEY([RecoParamsId])
+REFERENCES [dbo].[RecoParams] ([ID])
+GO
+ALTER TABLE [dbo].[RecoParams_TransationType]  WITH CHECK ADD FOREIGN KEY([TransationTypeId])
+REFERENCES [dbo].[TransationType] ([Id])
+GO
+
+
+******************************************************************************************************************************************
+USE [AtmViewV00]
+GO
+/****** Object:  Table [dbo].[RecoCardHolder]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoCardHolder](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[CardID] [int] NULL,
+	[PaymentProdID] [int] NULL,
+	[CardNumber] [nvarchar](max) NULL,
+	[ExpiryDate] [date] NULL,
+	[CardVerificationID] [int] NULL,
+	[CardCaptureID] [nvarchar](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoFile]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoFile](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[ParsingMethod] [varchar](255) NULL,
+	[Nomenclature] [varchar](255) NULL,
+	[Extension] [varchar](10) NULL,
+	[DetailListOperations] [text] NULL,
+ CONSTRAINT [PK__RecoFile__3214EC27AEE97B80] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoFileInfo]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoFileInfo](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FileName] [nvarchar](max) NULL,
+	[HashCode] [nvarchar](max) NULL,
+	[ParsingDate] [datetime] NULL,
+	[ParsingMethode] [nvarchar](max) NULL,
+	[ParsingVersion] [int] NULL,
+ CONSTRAINT [PK__RecoFile__3214EC27C71336B5] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoFraud]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoFraud](
+	[TransactionID] [int] IDENTITY(1,1) NOT NULL,
+	[TransactionRouteIndicator] [int] NULL,
+	[ForwardingInstitutionID] [nvarchar](100) NULL,
+	[ReceivingInstitutionID] [nvarchar](100) NULL,
+	[CardNumber] [nvarchar](max) NULL,
+	[ARN] [nvarchar](max) NULL,
+	[TransactionDate] [datetime] NULL,
+	[MerchantID] [int] NULL,
+	[FraudAmount] [float] NULL,
+	[FraudCurrCode] [nvarchar](max) NULL,
+	[NotificationCode] [nvarchar](50) NULL,
+	[AccountSequenceNumber] [nvarchar](50) NULL,
+	[InsuranceYear] [int] NULL,
+	[FraudType] [nvarchar](50) NULL,
+	[DebitCreditIndicator] [nvarchar](10) NULL,
+	[TransactionGenerationMethod] [nvarchar](50) NULL,
+	[ElectronicCommerceIndicator] [nvarchar](50) NULL,
+ CONSTRAINT [PK__RecoFrau__55433A4BA3373E59] PRIMARY KEY CLUSTERED 
+(
+	[TransactionID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoMerchant]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoMerchant](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[MerchantNbr] [bigint] NULL,
+	[MerchantName] [nvarchar](max) NULL,
+	[MerchantCity] [nvarchar](max) NULL,
+	[MerchantCategoryCode] [bigint] NULL,
+	[MerchantType] [nvarchar](max) NULL,
+	[MerchantCountryCode] [bigint] NULL,
+	[MerchantProvinceCode] [bigint] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoParams]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoParams](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FileType] [varchar](255) NULL,
+	[ParsingMethode] [varchar](255) NULL,
+	[Features] [text] NULL,
+	[DetailTrans] [text] NULL,
+	[Active] [bit] NULL,
+ CONSTRAINT [PK__RecoPara__3214EC2769ADCE20] PRIMARY KEY CLUSTERED 
+(
+	[ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoParams_TransationType]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoParams_TransationType](
+	[RecoParamsId] [int] NOT NULL,
+	[TransationTypeId] [int] NOT NULL,
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_RecoParams_TransationType_Id] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoParsingResultFile]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoParsingResultFile](
+	[ID] [int] IDENTITY(1,1) NOT NULL,
+	[FileName] [nvarchar](max) NULL,
+	[HashCode] [nvarchar](max) NULL,
+	[ParsingDate] [datetime] NULL,
+	[ParsingMethode] [nvarchar](max) NULL,
+	[ParsingVersion] [int] NULL,
+	[StartDate] [datetime2](7) NULL,
+	[EndDate] [datetime2](7) NULL,
+	[NbrTransactions] [bigint] NULL,
+	[MontantTotal] [bigint] NULL,
+	[NbrGAB] [bigint] NULL,
+	[FileType] [nvarchar](max) NULL,
+	[NbrLignes] [bigint] NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[RecoTransaction]    Script Date: 01/10/2024 12:24:38 ******/
+
+GO
+
+/****** Object:  Table [dbo].[RCTransactions]    Script Date: 22/10/2024 11:04:25 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[RCTransactions](
+	[FileID] [int] NOT NULL,
+	[FilePosition] [nvarchar](255) NULL,
+	[TCRNbr] [int] NULL,
+	[TypeID] [int] NULL,
+	[AtmID] [nvarchar](255) NOT NULL,
+	[TransactionDate] [datetime] NOT NULL,
+	[TransactionNumber] [int] NOT NULL,
+	[CardNumber] [nvarchar](255) NULL,
+	[AutorisationNumber] [nvarchar](max) NULL,
+	[Rib] [nvarchar](255) NULL,
+	[Amount] [int] NOT NULL,
+	[isCashPresented] [bit] NOT NULL,
+	[isCashTaken] [bit] NOT NULL,
+	[isCashRetracted] [bit] NOT NULL,
+	[isCashoutError] [bit] NOT NULL,
+	[ExistInHost] [bit] NOT NULL,
+	[IsRejected] [bit] NOT NULL,
+	[TrxPictures] [nvarchar](max) NULL,
+	[isSuspecious] [bit] NOT NULL,
+	[Duration] [float] NULL,
+	[ExtraInfos] [nvarchar](max) NULL,
+	[TerminalNbr] [bigint] NOT NULL,
+	[MerchantId] [int] NULL,
+	[TerminalID] [int] NULL,
+	[RefferenceNumber] [nvarchar](255) NULL,
+	[RemittanceNbr] [bigint] NULL,
+	[CardID] [int] NULL,
+	[AuthorizationCodeSourceID] [int] NULL,
+	[AcquirerRefferenceNumber] [nvarchar](255) NULL,
+	[VoucherNbr] [bigint] NULL,
+	[TransactionCurrency] [bigint] NULL,
+	[FacturationAmount] [float] NULL,
+	[DestinationCurrencyCode] [nvarchar](255) NULL,
+	[DestinationCurrencyExpence] [nvarchar](255) NULL,
+	[InterchangeFees] [nvarchar](255) NULL,
+	[InterchangeFeeCurrency] [nvarchar](255) NULL,
+	[InterchangeeFeeCurrencyExpence] [nvarchar](255) NULL,
+	[InterchangeFeeSign] [nvarchar](255) NULL,
+ CONSTRAINT [PK_dbo.RCTransactions] PRIMARY KEY CLUSTERED 
+(
+	[AtmID] ASC,
+	[TransactionDate] ASC,
+	[TransactionNumber] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+/****** Object:  Table [dbo].[RecoTransactionType]    Script Date: 01/10/2024 12:24:38 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RecoTransactionType](
+	[Id] [int] NOT NULL,
+	[TransactionCode] [nvarchar](50) NULL,
+	[Description] [nvarchar](max) NULL,
+	[Label] [nvarchar](250) NULL,
+	[Label_fr] [nvarchar](250) NULL,
+	[Color] [nvarchar](50) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[RecoParams] ADD  DEFAULT ((0)) FOR [Active]
+GO
+ALTER TABLE [dbo].[RecoParams_TransationType]  WITH CHECK ADD FOREIGN KEY([RecoParamsId])
+REFERENCES [dbo].[RecoParams] ([ID])
+GO
+ALTER TABLE [dbo].[RecoParams_TransationType]  WITH CHECK ADD FOREIGN KEY([TransationTypeId])
+REFERENCES [dbo].[TransationType] ([Id])
+GO
+
+
+
+***********************************************************************************************************************************
+
+CREATE TABLE AtmMaintenanceMode (
+    [Id] [int] IDENTITY(1,1) NOT NULL PRIMARY KEY, 
+	[Atm_Id] [nvarchar](128) NULL,
+	[StartDate] [datetime] NOT NULL,
+    [EndDate] [datetime] NULL,
+    [LastState_Id] [int] NOT NULL,
+    [MailSend] [int] NULL
+);
+*********************************************************************************************************************************
+
+ALTER TABLE [dbo].[SousMenus]
+    ADD [AdminOnly] BIT DEFAULT 0 NOT NULL;
+
+*****************************************************************************************************************************
+
+ALTER TABLE ActionCorrective
+ADD [EmailTo] INT NULL,
+    [EmailCc] INT NULL,
+    [PhoneTo] INT NULL,
+    [Emails] NVARCHAR(MAX) NULL,
+    [Phones] NVARCHAR(MAX) NULL,
+    [CcEmails] NVARCHAR(MAX) NULL;
+*******************************************************************************************************************************
+update Alerts set Parameters='[{"Name":"CreateBugAfter","Label":"Create Bug after (min)","Value":"1","Type":"number"},{"Name":"GENERICATMERROR","Label":"GENERIC ATM ERROR","Value":"true","Type":"checkbox"},{"Name":"CONSOMMABLEERROR","Label":"CONSOMMABLE ERROR","Value":"true","Type":"checkbox"},{"Name":"CASHERROR","Label":"CASH ERROR","Value":"true","Type":"checkbox"},{"Name":"HARDWAREERROR","Label":"HARDWARE ERROR","Value":"true","Type":"checkbox"},{"Name":"OFFLINECOMMUNICATION","Label":"OFFLINE COMMUNICATION","Value":"true","Type":"checkbox"},{"Name":"SECURITYISSUE","Label":"SECURITY ISSUE","Value":"true","Type":"checkbox"}]' where id='Incident'
+******************************* 
+la colonne JrnlBackupDir nvarchar(max) null
+
+ALTER TABLE AtmProfilCommon ALTER COLUMN CaptureMode INT;
+****************************************************
+
+ALTER TABLE RecoParsingResultFile
+ADD FileStatus VARCHAR(100);
+****************************************************************************************
+ALTER TABLE RecoParams
+ADD HostPath nvarchar(max),
+    ArchivePath nvarchar(max);
+
+
+
+	UPDATE RecoParams
+SET HostPath = 'C:\F_HOST',
+    ArchivePath ='C:\FHOST_ARCHIVE'
+WHERE FileType = 'TransactionFiles_SelectSystem'
+*****************************************************************************************
+
+ALTER TABLE  [Templates]
+ADD Content_fr nvarchar(max);
+
+******************************************************************************************
+
+ALTER TABLE [dbo].[Package] ALTER COLUMN [Tag] NVARCHAR (MAX) NULL;
+
+
+****************************************************************************************** New Templates & Alterts*********************************************************************************************************
+
+USE [SiteDemoV5_New]
+GO
+SET IDENTITY_INSERT [dbo].[Templates] ON 
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (1, N'Atm Cash warning', N'AtmView Alerts Cash Warning : {Atm_Id} -- {CashStockTotal}', N'<p><br></p><p><br></p><div style="border-top: 3px solid #ffd800">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atm Cash warning <br>        <br>      Dear Team,<br>        <br>        The current cash level in the attached Atm ''{Atm_Id}'' is lower than the configured threshold.&nbsp;<br>        <br>Please fill it as soon as possible.<br>        <br>        Atm:{Atm_Id}<br>        <br><span style="color: red;">Current amount: {CashStockTotal}</span> <br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span><br><span><img src="{Src}"></span>', N'Views\Templates\CashEmailTpl.html', NULL, N'Atm Cash warning', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (2, N'Atm Cash Exaustion', N'AtmView Alerts Cash Exaustion : {Atm_Id} -- {CashStockTotal}', N'<p><br></p><p><br></p><div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atm Cash Exaustion<br>        <br>      Dear Team,<br>        <br>        The attached Atm is in exhaustion .<br>        <br>Please fill it now.<br>        <br>        Atm:{Atm_Id}<br>        <br><span style="color: red;">Current amount: {CashStockTotal}</span> <br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span><br><span><img src="{Src}"></span>', N'Views\Templates\CashEmailTplExhaution.html', NULL, N'Atm Cash Exaustion', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (3, N'Atm Incident ', N'AtmView Alerte GAB Incident créé le :  {Atm_Id} -- {Date}
+', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:Atm Incident,<br>        <br>         Dear Team,<br>        <br>       The Atm <a href="{Atm_State_Link}">{Atm_Id}</a> is out of service (Bug-Id: <a href="{bug_link}">{bug_id}</a> ).<br>        <br>        Components in error: {ComponentsWithError}&nbsp;</span><div><span style="font-family: Arial; font-size: 13.3333px;">Error Type :</span>{ErrorsTypes}<br><div class="container"><br><table class="table table-bordered table-striped table-mail">            <thead>            </thead>            <tbody><!--<tr class="danger"> <td>label01 </td> <td> descr 01 </td> </tr>                <tr class="warning"> <td>label02 </td> <td> descr 02 </td> </tr>                <tr class="info"> <td>label03 </td> <td> descr 03 </td> </tr>-->            </tbody>        </table>    </div>        <span style="font-family: Arial; font-size: 10pt">            <br>            <!--Please execute this action to solve this error: {Action} <br />        <br />-->            Please do not reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span><br><span><img src="{Src}"></span></div>', N'Views\Templates\IncidentEmailTpl.html', NULL, N'Atm Incident ', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (4, N'Atm Back In Service', N'AtmView Alerte GAB En service :  {Atm_Id} -- {Date}
+', N'  <p><br></p> <p><br></p> <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Bonjour,<br>        <br>        Le gab <a href="{Atm_State_Link}">{Atm_Id}</a> est en service depuis le {Date}</span><div><span style="font-family: Arial; font-size: 10pt"><br></span><div><span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span><span style="font-family: Arial; font-size: 10pt;">        Merci de ne pas répondre à l''adresse ci-dessus.</span><br><span style="font-family: Arial; font-size: 10pt;">        Email envoyé automatiquement par l''équipe Back Office.</span><br>        <br><span style="font-family: Arial; font-size: 10pt;">        Merci<br>        </span><br><span><img src="{Src}"></span></div>', N'Views\Templates\InServiceEmailTpl.html', NULL, N'This atm {Atm_Id} back IN SERVICE', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (5, N'Atm Security', N'Atm Security Email Alert', N'<p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:Atm Security,<br>        <br>         Dear Team,<br>        <br>        The Atm:''{Atm_Id}''has a security issue.<br>Please intervene as soon as possible.</span><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div>', N'Views\Templates\SecurityEmailTpl.html', NULL, N'Atm Security', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (6, N'Inactive Atm', N'Inactive Atm Email Template', N'<p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt;">        Subject Line:</span><span style="font-family: Arial; font-size: 13.3333px;">Inactive Atm</span><span style="font-family: Arial; font-size: 10pt;">,</span><br>        <br><span style="font-family: Arial; font-size: 10pt;">         Dear Team,</span><br>        <br><span style="font-family: Arial; font-size: 10pt;">        These Atms are inactive.</span><div><span style="font-family: Arial; font-size: 13.3333px;"><br></span></div><div><span style="font-family: Arial; font-size: 13.3333px;">{Data}<br></span>         <br><span style="font-family: Arial; font-size: 10pt;">Please don''t reply to the above address.</span><br><span style="font-family: Arial; font-size: 10pt;">            Email sent automatically by the Back Office team.</span><br>            <br><span style="font-family: Arial; font-size: 10pt;">            Best Regards.</span><br>            </div>', N'Views\Templates\InactiveEmailTpl.html', NULL, N'Inactive Atm', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (7, N'High Reject Rate of Transactions', N'High Reject Rate Email Template', N'<p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:High Reject Rate of Transactions,<br>        <br>         Dear Team,<br>        <br>        There is a high rate of rejected transactions&nbsp;<br>&nbsp;please analyze and identify the reasons for this problem.</span><div><span style="font-family: Arial; font-size: 10pt"><br></span></div><div><span style="font-family: Arial; font-size: 10pt">{Data}</span></div><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div>', N'Views\Templates\HighRejectRateEmailTpl.html', NULL, N'High Reject Rate of Transactions', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (8, N'Atm Incorrect Replenishment Order', N'Incorrect Replenishment Order Email Template', N'<p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:Incorrect Replenishment Order,<br>        <br>         Dear Team,<br>        <br>        There is an inconsistency between the replenishment order launched and the one executed on the Atm :{Atm_Id}.<br><br>&nbsp;please Contact the cash-provider:{Cash-provider}.</span><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div>', N'Views\Templates\IncorrectReplenishmentCash.html', NULL, N'Atm Incorrect Replenishment Order', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (9, N'Atm Out of Service ', N'AtmView Alerte GAB Hors service  :  {Atm_Id} -- {Date}', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Bonjour,<br>        <br>        Le gab <a href="{Atm_State_Link}">{Atm_Id}</a> est hors service à cause de {MaxAC}&nbsp;</span><div><span style="font-family: Arial; font-size: 10pt"><br></span></div><div><span style="font-family: Arial; font-size: 13.3333px;">{Data}</span></div><div><span style="font-family: Arial; font-size: 10pt"><br></span><span style="font-family: Arial; font-size: 10pt">            <!--Please execute this action to solve this error: {Action} <br />        <br />-->            Merci de ne pas répondre à l''adresse ci-dessus.<br>            Email envoyé automatiquement par l''équipe Back Office.<br>            <br>            Merci<br>        </span><br><span><img src="{Src}"></span></div>', N'Views\Templates\OutServiceEmailTpl.html', NULL, N'Atm Out of Service ', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (10, N'Ordres d''alimentations à valider', N'Ordres d''alimentations à valider', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:Ordres d''alimentations à valider&nbsp;<br>        <br></span><p class="MsoNormal"><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif">Chère&nbsp;équipe&nbsp;,</span><br><br><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif">Veuillez trouverci-joint la liste des alimentations d''ajourd''hui .</span><o:p></o:p></p><span style="font-family: Arial; font-size: 10pt"><br></span><span style="font-size:10.0pt;font-family:&quot;Arial&quot;,sans-serif;mso-fareast-font-family:Calibri;mso-fareast-theme-font:minor-latin;mso-ansi-language:FR;mso-fareast-language:FR;mso-bidi-language:AR-SA">Merci de ne pas répondre àl''adresse ci-dessus.<br>Email envoyé automatiquement par l''équipe back office.<br><br>Cordialement.</span><span style="font-family: Arial; font-size: 10pt"><br>            <br>            Best Regards.<br>        </span>    ', N'Views\Templates\OutServiceEmailTpl.html', NULL, N'Ordres d''alimentations à valider', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (11, N'Slow Atms', N'Slow Atms', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:High Reject Rate of Transactions,<br>        <br>         Dear Team,<br>        <br>        These Atms are slow<br>&nbsp;please analyze and identify the reasons for this problem.</span><div><span style="font-family: Arial; font-size: 13.3333px;"><br></span></div><div><span style="font-family: Arial; font-size: 13.3333px;">{Data}<br></span><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div></div>', N'Views\Templates\SlowAtms.html', NULL, N'Slow Atms', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (12, N'Atm Cash Ok', N'AtmView Alerts Cash Ok : {Atm_Id} -- {CashStockTotal}', N'<p><br></p><p><br></p><div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atm Cash Ok<br>        <br>      Dear Team,<br>        <br></span><span style="font-family: Arial; font-size: 13.3333px;">The current cash level in the attached Atm is OK now.&nbsp;</span><br style="font-family: Arial; font-size: 13.3333px;"><span style="font-family: Arial; font-size: 10pt">        <br>Please fill it now.<br>        <br>        Atm:{Atm_Id}<br>        <br>Current amount: {CashStockTotal} <br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span><br><span><img src="{Src}"></span>', N'Views\Templates\CashEmailTplOk.html', NULL, N'Atm Cash Ok {Atm_Id}', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (13, N'Atm Cash Exaustion All', N'Cash Exaustion Email Tempalte', N'<p><br></p><p><br></p><div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atm Cash Exaustion<br>        <br>      Dear Team,<br>        <br>        The attached Atms are in exhaustion .<br>        <br>{Data}<br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span>', N'Views\Templates\CashEmailTplExhaution.html', NULL, N'Atm Cash Exaustion All', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (14, N'Atm Cash warning All', N'Atm Cash warning', N'<p><br></p><div style="border-top: 3px solid #ffd800">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atms Cash warning <br>        <br>      Dear Team,<br>        <br>        The current cash level in the attached Atms is lower than the configured threshold.&nbsp;<br>        <br>Please fill it as soon as possible.<br>        <br>{Data}<br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span>', N'Views\Templates\CashEmailTpl.html', NULL, N'Atm Cash warning All', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (15, N'Atm Cash Ok All', N'Cash Ok Email Template', N'<p><br></p><p><br></p><div style="border-top: 3px solid #66e522">&nbsp;</div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atms Cash Ok<br>        <br>      Dear Team,<br>        <br>        The current cash level in the attached Atms is OK now.&nbsp;<br>        <br>Please fill it as soon as possible.<br>        <br>{Data}<br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span>', N'Views\Templates\CashEmailTplOk.html', NULL, N'All Atm Cash Ok {Data}', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (16, N'All Atm Back In Service', N'AtmView Alerte All Atms Back In Service', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Bonjour,<br>        <br><span>        Ces gabs sont en service.</span><div><span style="font-family: Arial; font-size: 10pt"><br></span><span style="color: rgb(43, 51, 94);">{Data}</span></div><div><span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span><span style="font-family: Arial; font-size: 10pt;">       Merci de ne pas répondre à l''adresse ci-dessus.<br>        Email envoyé automatiquement par l''équipe Back Office.<br></span>        <br>        Merci<br></span><br>
+<span><img src="{Src}"></span>', N'Views\Templates\InServiceEmailTpl.html', NULL, N'All Atm Back In Service ', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (17, N'All Atm Out of Service ', N'AtmView Alerte All Atms Out of Service', N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #ff0000">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:Atm Out of Service <br>        <br>         Dear Team,<br>        <br>        this Atms are out of service.<br><br>{Data}<br><br>Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span><br>
+<span><img src="{Src}"></span> ', N'Views\Templates\OutServiceEmailTpl.html', NULL, N'All Atm Out of Service ', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (18, N'Atm Maintenance Mode', N'AtmView Alerte GAB Maintenance Mode : {Atm_Id} -- {Date}', N'<p><br></p> <div style="border-top: 3px solid #429ef5"> &nbsp; </div> <span style="font-family: Arial; font-size: 10pt"> Dear Team,<br> <br> The ATM <a href="{Atm_State_Link}">{Atm_Id}</a> {Cause} </span> <div> <span style="font-family: Arial; font-size: 10pt"><br></span> <span style="color: rgb(43, 51, 94);">{Data}</span> </div> <div> <span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span> <span style="font-family: Arial; font-size: 10pt;"> Please do not reply to the above address. </span><br> <span style="font-family: Arial; font-size: 10pt;"> Email automatically sent by the Back Office team. </span><br> <br> <span style="font-family: Arial; font-size: 10pt;"> Best Regards.<br> </span><br> <span><img src="{Src}"></span> </div>', N'Views\\Templates\\MaintenanceModeEmailTpl.html', NULL, N'Atm Maintenance', NULL)
+GO
+INSERT [dbo].[Templates] ([Id], [Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr]) VALUES (19, N'Atm Reconciliation', N'AtmView Alerte GAB Reconciliation : {Atm_Id} -- {Date}', N'<p><br></p><p style="font-family: Arial; font-size: 10pt;">        <img src="{Src}" alt="Logo">    </p><div style="border-top: 3px solid #429ef5; padding: 15px; font-family: Arial; font-size: 10pt;">    <p>Dear Client,</p>	<p>We hope this message finds you well. Please find below the latest reconciliation report summarizing the key details regarding the transactions, Ecarts, and reconciliation activities for your ATMs. This report includes a comprehensive overview of file reconciliation status, ecart summaries, and non-deactivated ATMs, as well as additional information on suspected transactions for this period.</p>    <p>        <strong>Reconciliation Report Summary:</strong><br>        <span>The number of files in reconciliation:</span> <strong>{FileCount}</strong>    </p>    <div style="margin-top: 15px;">        <strong>File Details:</strong>                        {FileTable}            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">            <thead>                <tr>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">FileName</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Start Date</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">End Date</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Transaction Count</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Total Amount</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">ATM Count</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">File Type</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Status</th>                </tr>            </thead>            <tbody></tbody>        </table>    </div>	<p> - Total ATMs: <strong>{TotalGab}</strong><br>        - Total Transactions: <strong>{TotalTrxs}</strong>	</p>      <p>        <strong>Summary of Results:</strong><br>		- Total Number of Ecarts: <strong>{EcartCount}</strong><br>        - Total Ecarts Amount: <strong>{TotalEcartAmount}</strong><br>        - Total Amount Reconciled: <strong>{TotalAmountReco}</strong><br>        - Total Number of Non deactivated Atms: <strong>{TotalEODatms}</strong>    </p>    <div style="margin-top: 15px;">        <strong>Ecarts Details:</strong>                        {EcartTable}            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">            <thead>                <tr>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">ATM Code</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Transaction Date</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Transaction Type</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Transaction No.</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Card Number</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Amount</th>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Status</th>                </tr>            </thead>            <tbody></tbody>        </table>    </div>	<div style="margin-top: 15px;">        <strong>Non-deactivated ATMs:</strong>                        {EODATMs}            <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">            <thead>                <tr>                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">ATM Code</th>                                   </tr>            </thead>            <tbody></tbody>        </table>    </div>	<p>		<strong>Suspected Transactions Summary</strong><br>		- Total Transactions: <strong>{TotalSusCount}</strong><br>		- Total Amount: <strong>{TotalSusAmount}</strong><br>		- Confirmed Suspected Transactions: <strong>{TotalC}</strong><br>		- Transactions Generating Ecarts: <strong>{TotalESus}</strong><br>		- Rejected Suspected Transactions: <strong>{TotaR}</strong><br>		- Unconfirmed Suspected Transactions: <strong>{TotalNotC}</strong>	</p>    <p style="margin-top: 15px;">        Please do not reply to this address. This email was automatically sent by the Back Office team.    </p>    <p>        Best Regards,<br>        <img src="{Src}" alt="Logo">    </p></div>', N'Views\\Templates\\ReconciliationEmailTpl.html', NULL, NULL, N'<div style="border-top: 3px solid #429ef5; padding: 15px; font-family: Arial; font-size: 10pt;">
+    <p>Cher Client,</p>
+
+	<p>Veuillez trouver ci-dessous le dernier rapport de réconciliation résumant les principaux détails concernant les transactions, les écarts et les activités de réconciliation pour vos GABs. Ce rapport inclut un aperçu complet du statut de réconciliation des fichiers, un résumé des écarts, ainsi que des informations supplémentaires sur les transactions suspectes pour cette période.</p>
+
+    <p>
+        <strong>Résumé du rapport de réconciliation :</strong><br>
+        <span>Le nombre de fichiers en réconciliation :</span> <strong>{FileCount}</strong>
+    </p>
+
+    <div style="margin-top: 15px;">
+        <strong>Détails de l analyse des fichiers :</strong>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Nom du fichier</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Date de début</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Date de fin</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Nombre de transactions</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Montant total</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Nombre de GABs</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Type de fichier</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {FileTable}
+            </tbody>
+        </table>
+    </div>
+
+	<p> - Total des DAB : <strong>{TotalGab}</strong><br>
+        - Total des transactions : <strong>{TotalTrxs}</strong>
+	</p>
+
+  
+    <p>
+        <strong>Résumé des résultats :</strong><br>
+		- Nombre total d écarts : <strong>{EcartCount}</strong><br>
+        - Montant total des écarts : <strong>{TotalEcartAmount}</strong><br>
+        - Montant total réconcilié : <strong>{TotalAmountReco}</strong><br>
+        - Nombre total de GAB non arrêtés : <strong>{TotalEODatms}</strong>
+    </p>
+
+    <div style="margin-top: 15px;">
+        <strong>Détails des écarts :</strong>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Code GAB</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Date de transaction</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Type de transaction</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Numéro de transaction</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Numéro de carte</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Montant</th>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {EcartTable}
+            </tbody>
+        </table>
+    </div>
+
+	<div style="margin-top: 15px;">
+        <strong>DAB arrêtés :</strong>
+        <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; font-size: 10pt;">
+            <thead>
+                <tr>
+                    <th style="border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2;">Code DAB</th>
+                </tr>
+            </thead>
+            <tbody>
+                {EODATMs}
+            </tbody>
+        </table>
+    </div>
+
+	<p>
+		<strong>Résumé des transactions suspectes</strong><br>
+		- Nombre total de transactions : <strong>{TotalSusCount}</strong><br>
+		- Montant total : <strong>{TotalSusAmount}</strong><br>
+		- Transactions suspectes confirmées : <strong>{TotalC}</strong><br>
+		- Transactions générant des écarts : <strong>{TotalESus}</strong><br>
+		- Transactions suspectes rejetées : <strong>{TotaR}</strong><br>
+		- Transactions suspectes non confirmées : <strong>{TotalNotC}</strong>
+	</p>
+
+    <p style="margin-top: 15px;">
+        Veuillez ne pas répondre à cette adresse. Cet e-mail a été envoyé automatiquement par l équipe de Back Office.
+    </p>
+
+    <p>
+        Cordialement,<br>
+        <img src="{Src}" alt="Logo">
+    </p>
+</div>')
+GO
+SET IDENTITY_INSERT [dbo].[Templates] OFF
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashExhaution', N'CashExhaution', N'Current Amount < threshold exhaution', N'SendMail', N'AtmView_CashExhaution', 1, N'MONITORING', 2, 1, 6000, 0, 1, NULL, 0, N'[{"Name":"thresholdExaustionValue","Label":"threshold Exaustion Value","Value":"5000","Type":"number"},{"Name":"CreateBug","Label":"Create Bug","Value":"true","Type":"checkbox"}]', 1, 1, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashExhautionAll', N'Cash ExhautionAll', N'Current Amount < threshold exhaution', N'Send Mail', N'AtmView_CashExhautionAll', 0, N'MONITORING', 13, 60, 6000, 0, 1, NULL, 0, N'[{"Name":"thresholdExaustionValue","Label":"threshold Exaustion Value","Value":"5000","Type":"number"},{"Name":"CreateBug","Label":"Create Bug","Value":"true","Type":"checkbox"}]', 1, 1, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashOk', N'Atm Replenishment', N'Current Amount > threshold warning', N'Send Mail', N'AtmView_CashOk', 1, N'MONITORING', 12, 1, 6000, 0, 1, NULL, 0, N'[{"Name":"thresholdOkValue","Label":"threshold Ok Value","Value":"100000","Type":"number"}]
+', 1, 1, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashOkAll', N'All Atm Replenishment', N'Current Amount > threshold warning', N'Send Mail', N'AtmView_CashOkAll', 0, N'MONITORING', 15, 60, 6000, 0, 0, NULL, 0, N'[{"Name":"thresholdWarningValue","Label":"threshold Warning Value","Value":"100000","Type":"number"}]', 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashWarning', N'Warning Cash', N'Current Amount < threshold warnning', N'Send Mail', N'AtmView_CashWarning', 1, N'MONITORING', 1, 1, 6000, 0, 1, NULL, 0, N'[{"Name":"thresholdWarningValue","Label":"threshold Warning Value","Value":"100000","Type":"number"},{"Name":"thresholdExaustionValue","Label":"threshold Exaustion Value","Value":"5000","Type":"number"}]', 1, 3, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'CashWarningAll', N'AllWarning Cash', N'Current Amount < threshold warnning', N'Send Mail', N'AtmView_CashWarningAll', 0, N'MONITORING', 14, 60, 6000, 0, 0, NULL, 0, N'[{"Name":"thresholdWarningValue","Label":"threshold Warning Value","Value":"100000","Type":"number"}, {"Name":"thresholdExaustionValue","Label":"threshold Exaustion Value","Value":"5000","Type":"number"}]', 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'HighRejectRate', N'High Reject Rate', N'RejectRate>50', N'Send Mail', N'AtmView_HighRejectRate', 0, N'MONITORING', 7, 30, 6000, 0, 0, NULL, 0, N'[{"Name":"MaxRateOfReject","Label":"Max Rate Of Reject","Value":"60","Type":"number"}]', 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'Inactive', N'Inactive', N'Now-(Last Transaction Date)>=4h', N'Send Mail', N'AtmView_Inactive', 0, N'MONITORING', 6, 5, 6000, 1, 0, NULL, 0, N'[{"Name":"MaxNbrOfHours","Label":"Max Number Of Hour","Value":"6","Type":"number"}]', 0, 0, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'Incident', N'Incident', N'Incident', N'Send Mail', N'AtmView_Incident', 1, N'MONITORING', 3, 1, 6000, 0, 1, NULL, 0, N'[{"Name":"CreateBugAfter","Label":"Create Bug after (min)","Value":"1","Type":"number"},{"Name":"GENERICATMERROR","Label":"GENERIC ATM ERROR","Value":"true","Type":"checkbox"},{"Name":"CONSOMMABLEERROR","Label":"CONSOMMABLE ERROR","Value":"true","Type":"checkbox"},{"Name":"CASHERROR","Label":"CASH ERROR","Value":"true","Type":"checkbox"},{"Name":"HARDWAREERROR","Label":"HARDWARE ERROR","Value":"true","Type":"checkbox"},{"Name":"OFFLINECOMMUNICATION","Label":"OFFLINE COMMUNICATION","Value":"true","Type":"checkbox"},{"Name":"SECURITYISSUE","Label":"SECURITY ISSUE","Value":"true","Type":"checkbox"}]', 1, 1, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'IncorrectReplenishmentCash', N'Incorrect Replenishment Cash', N'Replenishment Amount requested != Replenishment Amount executed', N'Send Mail', N'AtmView_IncorrectReplenishmentCash', 0, N'MONITORING', 8, 60, 6000, 0, 0, NULL, 0, NULL, 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'InService', N'In Service', N'Atm in service', N'Send Mail', N'AtmView_InService', 1, N'MONITORING', 4, 1, 6000, 0, 0, NULL, 0, N'[{"Name":"AutoCloseBug","Label":"Auto Close Bug","Value":"true","Type":"checkbox"}]', 0, 0, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'InServiceAll', N'In Service All', N'All Atm in service', N'Send Mail', N'AtmView_InServiceAll', 0, N'MONITORING', 16, 60, 6000, 0, 1, NULL, 0, N'null', 1, 1, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'MaintenanceMode', N'Maintenance Mode', N'Maintenance Mode', N'Send Mail', N'the ATM is out of service due to an incident', 1, N'MONITORING', 18, 10, 6000, 0, 1, NULL, 0, N'null', 1, 0, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'OutService', N'Out Service', N'Atm out service', N'Send Mail', N'AtmView_OutService', 1, N'MONITORING', 9, 1, 6000, 0, 0, NULL, 0, N'null', 0, 0, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'OutServiceAll', N'Out Service All', N'All Atm out service', N'Send Mail', N'AtmView_OutServiceAll', 0, N'MONITORING', 17, 60, 6000, 0, 0, NULL, 0, N'null', 0, 0, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'Reconciliation', N'Reconciliation', N'Reconciliation', N'Send Mail', N'The ATM is in reconciliation.', 0, N'MONITORING', 19, 10, 6000, 0, 1, NULL, 0, NULL, 1, 0, 0, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'Replenishments Orders', N'Replenishments Orders', N'Ordres d''alimentations', N'Send Mail', N'AtmView_ReplishmentOrder', 0, N'CASHMANAGEMENT', 10, 60, 6000, 0, 0, NULL, 0, NULL, 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'Security', N'Security', N'Security', N'Send Mail', N'AtmView_Security', 0, N'MONITORING', 5, 60, 6000, 0, 0, NULL, 0, NULL, 1, 1, 1, NULL, NULL, NULL)
+GO
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) VALUES (N'SlowAtms', N'Slow Atms', N'Avg of transactio duration > MaxValue', N'Send Mail', N'AtmView_SlowAtms', 0, N'MONITORING', 11, 60, 6000, 0, 0, NULL, 0, N'[{"Name":"GoodDuration","Label":"Good duration","Value":"50","Type":"number"}, {"Name":"WorstDuration","Label":"Warning duration","Value":"60","Type":"number"}]', 1, 1, 1, NULL, NULL, NULL)
+GO
+USE [SiteDemoV5_New]
+GO
+SET IDENTITY_INSERT [dbo].[Arguments] ON 
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (19, N'Data', N'Table of OutOfService Atms', N'OutServiceAll')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (20, N'Data', N'Table of InService Atms', N'InServiceAll')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (21, N'Data', N'Table of AllCashExhaution Atms', N'CashExhautionAll')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (22, N'Data', N'Table of AllCashwarning Atms', N'CashWarningAll')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (23, N'Data', N'Table of Slow Atms', N'SlowAtms')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (24, N'Data', N'Table of Inactif Atms', N'Inactive')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (25, N'Data', N'Table of HighRejectRate Atms', N'HighRejectRate')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (26, N'Data', N'Table of AllCashOk Atms', N'CashOkAll')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (27, N'Atm_Id', N'Atm Id of CashExhaution', N'CashExhaution')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (28, N'CashStockTotal', N'CashStock Total of Atm', N'CashExhaution')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (29, N'Atm_Id', N'Atm Id of CashWarning', N'CashWarning')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (30, N'CashStockTotal', N'CashStock Total of Atm', N'CashWarning')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (31, N'Atm_Id', N'Atm Id of CashOk', N'CashOk')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (32, N'CashStockTotal', N'CashStock Total of Atm', N'CashOk')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (33, N'Atm_Id', N'AtmId of outOfServ Atm', N'OutService')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (34, N'ComponentsWithError', NULL, N'Incident')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (35, N'ErrorsTypes', NULL, N'Incident')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (36, N'Atm_State_Link', NULL, N'Incident')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (37, N'bug_id', NULL, N'Incident')
+GO
+INSERT [dbo].[Arguments] ([Id], [ArgName], [ArgValue], [AlertId]) VALUES (38, N'Atm_Id', NULL, N'InService')
+GO
+SET IDENTITY_INSERT [dbo].[Arguments] OFF
+GO
+*********************************************************************************************************************************************************************
+UPDATE Templates
+SET Title='Atm Cash Exaustion' , Content = N'<p><br></p><p><br></p><div style="border-top: 3px solid #ff0000">        &nbsp;    </div> 
+    <span style="font-family: Arial; font-size: 10pt">  
+        Subject Line: Atm Cash Exhaustion<br><br>        
+        Dear Team,<br><br>        
+        The attached ATMs are in exhaustion.<br><br>{Data}<br><br>        
+        Please don''t reply to the above address.<br>        
+        Email sent automatically by the Back Office team.<br><br>        
+        Best Regards.<br>    
+    </span><br>
+    <span><img src="{Src}"></span>'
+WHERE Name = 'Atm Cash Exaustion All';
+
+UPDATE Templates
+SET Title='Atm Cash warning' , Content = N'<p><br></p><div style="border-top: 3px solid #ffd800">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atms Cash warning <br>        <br>      Dear Team,<br>        <br>        The current cash level in the attached Atms is lower than the configured threshold.&nbsp;<br>        <br>Please fill it as soon as possible.<br>        <br>{Data}<br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span><br><span><img src="{Src}"></span>
+' WHERE Name = 'Atm Cash warning All';
+
+UPDATE Templates
+SET Title='Atm Cash Ok' , Content = N'<p><br></p><p><br></p><div style="border-top: 3px solid #66e522">&nbsp;</div>    <span style="font-family: Arial; font-size: 10pt">  Subject Line:Atms Cash Ok<br>        <br>      Dear Team,<br>        <br>        The current cash level in the attached Atms is OK now.&nbsp;<br>        <br>Please fill it as soon as possible.<br>        <br>{Data}<br>        <br>       Please don''t reply to the above address.<br>        Email sent automatically by the Back Office team.<br>        <br>        Best Regards.<br>    </span><br><span><img src="{Src}"></span>
+' WHERE Name = 'Atm Cash Ok All';
+
+UPDATE Templates
+SET Content = N'<p><br></p><p><br></p>    <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:ATM Performance Issue – Slow ATMs,<br>        <br>         Dear Team,<br>        <br>        These ATMs are slow<br>&nbsp;please analyze and identify the reasons for this problem.</span><div><span style="font-family: Arial; font-size: 13.3333px;"><br></span></div><div><span style="font-family: Arial; font-size: 13.3333px;">{Data}<br></span><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div></div><br><span><img src="{Src}"></span>'
+WHERE Name = 'Slow Atms';
+
+UPDATE Templates
+SET Title = 'Inactive Atm', Content = N'<p><br></p>    <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt;">        Subject Line:</span><span style="font-family: Arial; font-size: 13.3333px;">Inactive Atm</span><span style="font-family: Arial; font-size: 10pt;">,</span><br>        <br><span style="font-family: Arial; font-size: 10pt;">         Dear Team,</span><br>        <br><span style="font-family: Arial; font-size: 10pt;">        These ATMs are inactive.</span><div><span style="font-family: Arial; font-size: 13.3333px;"><br></span></div><div><span style="font-family: Arial; font-size: 13.3333px;">{Data}<br></span>         <br><span style="font-family: Arial; font-size: 10pt;">Please don''t reply to the above address.</span><br><span style="font-family: Arial; font-size: 10pt;">            Email sent automatically by the Back Office team.</span><br>            <br><span style="font-family: Arial; font-size: 10pt;">            Best Regards.</span><br>            </div><br><span><img src="{Src}"></span>'
+WHERE Name = 'Inactive Atm';
+
+UPDATE Templates
+SET Title = 'High Reject Rate', Content = N'<p><br></p>    <div style="border-top: 3px solid #66e522">        &nbsp;    </div>    <span style="font-family: Arial; font-size: 10pt">        Subject Line:High Reject Rate of Transactions,<br>        <br>         Dear Team,<br>        <br>        There is a high rate of rejected transactions&nbsp;<br>&nbsp;please analyze and identify the reasons for this problem.</span><div><span style="font-family: Arial; font-size: 10pt"><br></span></div><div><span style="font-family: Arial; font-size: 10pt">{Data}</span></div><div><span style="font-family: Arial; font-size: 10pt"><br>            Please don''t reply to the above address.<br>            Email sent automatically by the Back Office team.<br>            <br>            Best Regards.<br>        </span>    </div><br><span><img src="{Src}"></span>'
+WHERE Name = 'High Reject Rate of Transactions';
+
+UPDATE Templates
+SET Title = 'All Atm Back In Service', Content = N'<p><br></p><p><br></p>    
+                <div style="border-top: 3px solid #66e522">        
+                    &nbsp;   
+                </div>    
+                <span style="font-family: Arial; font-size: 10pt">        
+                    Dear Team,<br><br>
+                    <span>        
+                        These ATMs are in service.
+                    </span>
+                    <div>
+                        <span style="font-family: Arial; font-size: 10pt"><br></span>
+                        <span style="color: rgb(43, 51, 94);">{Data}</span>
+                    </div>
+                    <div>
+                        <span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span>
+                        <span style="font-family: Arial; font-size: 10pt;">       
+                            Please do not reply to the address above.<br>        
+                            Email automatically sent by the Back Office team.<br>        
+                        </span>        
+                        <br>        
+                        Best Regards.      
+                    </span><br>  
+                    <span><img src="{Src}"></span>
+                </span>' 
+WHERE Name = 'All Atm Back In Service';
+
+UPDATE Templates
+SET 
+    Title = 'All Atm Out of Service',
+    Content = N'<p><br></p><p><br></p>    
+                <div style="border-top: 3px solid #ff0000">        
+                    &nbsp;    
+                </div>    
+                <span style="font-family: Arial; font-size: 10pt">        
+                    Subject Line: ATM Out of Service <br>        
+                    <br>        
+                    Dear Team,<br>        
+                    <br>        
+                    These ATMs are out of service.<br><br>
+                    {Data}<br><br>
+                    Please don''t reply to the above address.<br>            
+                    Email sent automatically by the Back Office team.<br>            
+                    <br>            
+                    Best Regards.<br>        
+                </span><br>  
+                <span><img src="{Src}"></span>'
+WHERE Name = 'All Atm Out of Service ';
+
+update Alerts 
+set Parameters='[{"Name":"CreateBug","Label":"Create Bug","Value":"true","Type":"checkbox"}]'
+where Id='Security';
+
+UPDATE Templates
+SET
+    Content = N'<br />
+<div style="border-top: 3px solid #66e522">&nbsp;</div>
+<span style="font-family: Arial; font-size: 10pt">Bonjour,<br />
+<br />Alerte sécurité du gab <a href="{Atm_State_Link}">{Atm_Id}</a>.<br /><br />
+Merci de ne pas répondre à l''adresse ci-dessus.<br />
+Email envoyé automatiquement par l''équipe Back Office.<br /><br />
+Merci<br /></span><br>
+<span><img src="{Src}"></span>'
+WHERE Name = 'Atm Security';
+
+*********************************************************************************************************************************************************************
+
+  alter table [Templates]
+  add Template_pdf nvarchar(max)
+
+
+
+    update  [Templates]
+  set Template_pdf ='<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconciliation Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .report-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2, h3 {
+            color: #4A90E2;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #4A90E2;
+            color: white;
+        }
+        .summary, .details {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="report-container">
+        <h1>Reconciliation Report Summary</h1>
+        <img src="logo.png" alt="Company Logo"> <!-- Replace with your logo path -->
+        <p><strong>Date:</strong> 13/11/2024 16:49:49</div>
+    </div>
+
+       <h2>Report Overview</h2>
+        <div class="summary">
+        <p>This report provides a summary of reconciliation results, including file details, transaction summaries, ecarts, and suspected transactions for ATMs.</p>
+        <p class="summary">Total Files in Reconciliation: <strong>{FileCount}</strong></p>
+        <p class="summary">Total ATMs: <strong>{TotalGab}</strong></p>
+        <p class="summary">Total Transactions: <strong>{TotalTrxs}</strong></p>
+    </div>
+
+  
+        <h2>File Parsing Details</h2>
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th>FileName</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Transaction Count</th>
+                        <th>Total Amount</th>
+                        <th>ATM Count</th>
+                        <th>File Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {FileTable}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <h2>Summary of Results</h2>
+    <div class="summary">
+        <p class="summary">Total Number of Ecarts: <strong>{EcartCount}</strong></p>
+        <p class="summary">Total Ecarts Amount: <strong>{TotalEcartAmount}</strong></p>
+        <p class="summary">Total Amount Reconciled: <strong>{TotalAmountReco}</strong></p>
+        <p class="summary">Total Number of Not Cutoff ATMs: <strong>{TotalEODatms}</strong></p>
+    </div>
+
+  
+        <h2>Ecarts Details</h2>
+      
+            <table>
+                <thead>
+                    <tr>
+                        <th>ATM Code</th>
+                        <th>Transaction Date</th>
+                        <th>Transaction Type</th>
+                        <th>Transaction No.</th>
+                        <th>Card Number</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {EcartTable}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+ 
+        <h2>Not Cutoff ATMs</h2>
+      
+            <table>
+                <thead>
+                    <tr>
+                        <th>ATM Code</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {EODATMs}
+                </tbody>
+            </table>
+        </div>
+    </div>
+ <h2>Suspected Transactions Summary</h2>
+        <div class="summary">
+        <p class="summary">Total Suspected Transactions: <strong>{TotalSusCount}</strong></p>
+        <p class="summary">Total Amount: <strong>{TotalSusAmount}</strong></p>
+        <p class="summary">Confirmed Suspected Transactions: <strong>{TotalC}</strong></p>
+        <p class="summary">Transactions Generating Ecarts: <strong>{TotalESus}</strong></p>
+        <p class="summary">Rejected Suspected Transactions: <strong>{TotaR}</strong></p>
+        <p class="summary">Unconfirmed Suspected Transactions: <strong>{TotalNotC}</strong></p>
+    </div>
+</body>
+</html>
+
+'
+
+where Name='Atm Reconciliation'
+
+**************************************************************************************************************************************************************************
+
+GO
+/** Object:  Table [dbo].[RklAtmProfile]    Script Date: 19/11/2024 12:24:19 **/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RklAtmProfile](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[DecryptKey] [nvarchar](max) NULL,
+	[SigKey] [nvarchar](max) NULL,
+	[PublicKeyEncoding] [nvarchar](max) NULL,
+	[HashIdentifier] [nvarchar](max) NULL,
+	[PublicKeyAtm] [nvarchar](max) NULL,
+	[SigKeyAtm] [nvarchar](max) NULL,
+	[AtmProfileId] [int] NOT NULL,
+ CONSTRAINT [PK_RklAtmProfile] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/** Object:  Table [dbo].[RklKeyUse]    Script Date: 19/11/2024 12:24:19 **/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[RklKeyUse](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[KeyName] [nvarchar](max) NULL,
+	[dwUse] [nvarchar](max) NULL,
+	[Use] [nvarchar](max) NULL,
+	[RklProfileId] [int] NOT NULL,
+ CONSTRAINT [PK_RklKeyUse] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+**************************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+
+ALTER TABLE RCTransactions
+ADD AccountNumber NVARCHAR(MAX);
+
+INSERT INTO RecoParams
+([FileType], [ParsingMethode], [Features], [DetailTrans], [Active], [HostPath], [ArchivePath])
+VALUES 
+('TransactionFiles_Accounting', 'RecoTFG', 'AtmID,TransactionNumber,Amount', NULL, 1, NULL, NULL);
+
+*********************************************************************************************************************************************************************
+  INSERT INTO RecoTransactionType (TransactionCode, Description, Label, Label_fr, Color)
+VALUES ('09', 'Cash Depot transaction', 'Dep ESP', 'Dep ESP', '#FF5722');
+*********************************************************************************************************************************************************************
+  CREATE TABLE TmkProcessSummary
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,  
+    AtmId NVARCHAR(255) NOT NULL,       
+    Success INT NULL,               
+    CmdctrlTMKRSAId INT NULL,           
+    Timestamp DATETIME NOT NULL         
+);
+
+
+CREATE TABLE TmkProcessSteps
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,      
+    StepName NVARCHAR(255) NOT NULL,       
+    Status NVARCHAR(50) NOT NULL,           
+    Message NVARCHAR(500) NULL,             
+    Timestamp DATETIME NULL,                
+    TmkProcessSummaryId INT NOT NULL,      
+    CONSTRAINT FK_TmkProcessSummary FOREIGN KEY (TmkProcessSummaryId) REFERENCES TmkProcessSummary(Id) ON DELETE CASCADE  
+);
+
+CREATE TABLE PasswordHistory (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    UserId NVARCHAR(128) NOT NULL,
+    HashedPassword NVARCHAR(MAX) NOT NULL,
+    ChangedDate DATETIME NOT NULL
+);
+
+*********************************************************************************************************************************************************************
+
+STOCKED PROCEDURE DELETE OLD DATA
+
+*********************************************************************************************************************************************************************
+
+GO
+/****** Object:  StoredProcedure [dbo].[PS_DeleteOldData]    Script Date: 30/12/2024 11:54:55 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[PS_DeleteOldData]
+    @Duration INT,
+    @PeriodType NVARCHAR(10) -- Peut être 'year', 'month', 'week', ou 'day'
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- Démarrer une transaction explicite
+    BEGIN TRAN;
+
+    BEGIN TRY
+        -- Variable pour calculer la date limite
+        DECLARE @CutoffDate DATETIME;
+
+        -- Calcul de la date limite en fonction du type de période
+        IF @PeriodType = 'year'
+            SET @CutoffDate = DATEADD(YEAR, -@Duration, GETDATE());
+        ELSE IF @PeriodType = 'month'
+            SET @CutoffDate = DATEADD(MONTH, -@Duration, GETDATE());
+        ELSE IF @PeriodType = 'week'
+            SET @CutoffDate = DATEADD(WEEK, -@Duration, GETDATE());
+        ELSE IF @PeriodType = 'day'
+            SET @CutoffDate = DATEADD(DAY, -@Duration, GETDATE());
+        ELSE
+            BEGIN
+                RAISERROR('Type de période non valide. Utilisez "year", "month", "week", ou "day".', 16, 1);
+                ROLLBACK TRAN;
+                RETURN;
+            END;
+
+        -- Suppression des données dans AVTransaction
+        DELETE FROM AVTransaction
+        WHERE TransactionDate < @CutoffDate;
+
+        -- Suppression des données dans JournalEntryMontly
+        DELETE FROM JournalEntryMontly
+        WHERE EntryTime < @CutoffDate;
+
+		DELETE FROM RecoTransaction
+		WHERE TransactionDate < @CutoffDate; 
+
+		DELETE FROM TransactionEcart
+		WHERE TransactionDate < @CutoffDate; 
+
+		DELETE FROM RCTRansactions
+		WHERE TransactionDate < @CutoffDate; 
+
+        -- Confirmation
+        PRINT 'Données supprimées avec succès pour les périodes plus anciennes que ' + CONVERT(VARCHAR, @CutoffDate);
+
+        -- Confirmer les modifications
+        COMMIT TRAN;
+    END TRY
+    BEGIN CATCH
+        -- Annuler les modifications en cas d'erreur
+        ROLLBACK TRAN;
+
+        -- Lever l'erreur pour la remonter à l'appelant
+        THROW;
+    END CATCH
+END;
+
+*********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+
+GO
+INSERT INTO Templates 
+    (Name, Title, Content, Path, Params, SmsContent, Content_fr, Template_pdf)
+VALUES 
+    (
+        'File Audit Tracker', 
+        'File Audit Tracker Alert', 
+        ' <p><br></p>
+<p><br></p>
+<div style="border-top: 3px solid {BorderColor}">             
+    &nbsp;      
+</div>      
+<span style="font-family: Arial; font-size: 10pt">              
+    Dear Team,<br>              
+    <br>              
+    A file integrity check has been performed on the application files. The following file(s) have been scanned:<br>
+    <br>
+    <b>Checksum Status (DLL):</b> {DLL_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (PDB):</b> {PDB_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (JAR):</b> {JAR_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (SQL):</b> {SQL_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (Configuration File):</b> {Config_Checksum_Status}<br>
+    <br>
+    <b>Timestamp of Check:</b> {Date}<br>
+</span>  
+<div>      
+    <span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Please investigate the cause of the file modification and take appropriate action.      
+    </span><br>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Do not reply to the above address. This email is automatically generated by the system.      
+    </span><br>      
+    <br>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Best Regards.<br>      
+    </span><br>      
+    <span><img src="{Src}"></span>  
+</div>
+', 
+        'Views/Templates/FileAuditTrackerEmailTpl.html', 
+        NULL,'File Audit Tracker',NULL,NULL);
+
+
+
+
+    INSERT INTO Alerts VALUES ('FileAuditTracker','File Audit Tracker','File Checksum != Original Checksum','Send Mail','Verifies the integrity of DLL and PDB files by comparing their current checksums with the original ones.',
+    0,'MONITORING',(SELECT Id FROM Templates WHERE Name = 'File Audit Tracker'),2160,3600,0,1,NULL,0,'[{"Name":"dllFilePath","Label":"DLL File Path","Value":"","Type":"string"}, 
+      {"Name":"pdbFilePath","Label":"PDB File Path","Value":"","Type":"string"},{"Name":"FolderPath","Label":"App Folder Path","Value":"","Type":"string"}]',
+    0,0,0,NULL,NULL,NULL);
+*********************************************************************************************************************************************************************
+
+ALTER TABLE AspNetUsers
+ADD FirstName NVARCHAR(256) NULL,
+    LastName NVARCHAR(256) NULL;
+
+*********************************************************************************************************************************************************************
+
+  update Templates set Content='  <p><br></p>
+<p><br></p>
+<div style="border-top: 3px solid {BorderColor}">             
+    &nbsp;      
+</div>      
+<span style="font-family: Arial; font-size: 10pt">              
+    Dear Team,<br>              
+    <br>              
+    A file integrity check has been performed on the application files. The following file(s) have been scanned:<br>
+    <br>
+    <b>Checksum Status (DLL):</b> {DLL_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (PDB):</b> {PDB_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (JAR):</b> {JAR_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (SQL):</b> {SQL_Checksum_Status}<br>
+    <br>
+    <b>Checksum Status (Configuration File):</b> {Config_Checksum_Status}<br>
+    <br>
+    <b>Timestamp of Check:</b> {Date}<br>
+</span>  
+<div>      
+    <span style="color: rgb(43, 51, 94); font-size: 13px;"><br></span>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Please investigate the cause of the file modification and take appropriate action.      
+    </span><br>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Do not reply to the above address. This email is automatically generated by the system.      
+    </span><br>      
+    <br>      
+    <span style="font-family: Arial; font-size: 10pt;">          
+        Best Regards.<br>      
+    </span><br>      
+    <span><img src="{Src}"></span>  
+</div>' where Name='File Audit Tracker'
+
+*********************************************************************************************************************************************************************
+
+
+INSERT INTO [dbo].[Templates]
+           ([Name]
+           ,[Title]
+           ,[Content]
+           ,[Path]
+           ,[Params]
+           ,[SmsContent]
+           ,[Content_fr]
+           ,[Template_pdf])
+     VALUES
+           ('Delete Old Data'
+           ,'Delete Old Data'
+           ,'<p><br></p>'
+           ,'Views\\Templates\\DataRetentionTpl.html'
+           ,NULL
+           ,'Data Retention'
+           ,NULL
+           ,NULL)
+GO
+
+*********************************************************************************************************************************************************************
+
+
+INSERT INTO [dbo].[Templates]
+           ([Name]
+           ,[Title]
+           ,[Content]
+           ,[Path]
+           ,[Params]
+           ,[SmsContent]
+           ,[Content_fr]
+           ,[Template_pdf])
+     VALUES
+           ('Check Obsolete Packages'
+           ,'Check Obsolete Packages'
+           ,'<p><br></p>'
+           ,'Views\\Templates\\CheckObsoletePackagesTpl.html'
+           ,NULL
+           ,'Check Obsolete Packages'
+           ,NULL
+           ,NULL)
+GO
+
+
+*********************************************************************************************************************************************************************
+
+INSERT INTO [dbo].[Alerts]
+           ([Id]
+           ,[Name]
+           ,[Condition]
+           ,[Action]
+           ,[Description]
+           ,[Etat]
+           ,[Module]
+           ,[Template_Id]
+           ,[RiseInterval]
+           ,[RenotifyInterval]
+           ,[SendSms]
+           ,[SendEmail]
+           ,[JobId]
+           ,[RiseOnStateChanged]
+           ,[Parameters]
+           ,[EmailTo]
+           ,[EmailCc]
+           ,[PhoneTo]
+           ,[Emails]
+           ,[Phones]
+           ,[CcEmails])
+     VALUES
+           ('DeleteOldData',
+           'Delete Old Data',
+           NULL,
+           'Send Mail',
+           'Data Retention',
+           1,
+           'MONITORING',
+           21,
+           10080,
+           6000,
+           0,
+           0,
+           NULL,
+           0,
+           NULL,
+           0,
+           0,
+           0,
+           NULL,
+           NULL,
+           NULL);
+GO
+
+*********************************************************************************************************************************************************************
+
+INSERT INTO [dbo].[Alerts]
+           ([Id]
+           ,[Name]
+           ,[Condition]
+           ,[Action]
+           ,[Description]
+           ,[Etat]
+           ,[Module]
+           ,[Template_Id]
+           ,[RiseInterval]
+           ,[RenotifyInterval]
+           ,[SendSms]
+           ,[SendEmail]
+           ,[JobId]
+           ,[RiseOnStateChanged]
+           ,[Parameters]
+           ,[EmailTo]
+           ,[EmailCc]
+           ,[PhoneTo]
+           ,[Emails]
+           ,[Phones]
+           ,[CcEmails])
+     VALUES
+           ('CheckObsoletePackages',
+           'Check Obsolete Packages',
+           NULL,
+           'Send Mail',
+           'Check Obsolete Packages',
+           1,
+           'MONITORING',
+           22,
+           1440,
+           6000,
+           0,
+           0,
+           NULL,
+           0,
+           NULL,
+           0,
+           0,
+           0,
+           NULL,
+           NULL,
+           NULL);
+GO
+
+*********************************************************************************************************************************************************************
+
+update Command set IsJobCmd = 0 where id=11
+
+--- START : 09/01/2025 MOUAD : ADD ATMS COLUMN IN CONTROLEALERT TABLE ---
+
+Alter table AlertControls ADD Atms nvarchar(max) null
+
+--- END : 09/01/2025 MOUAD : ADD ATMS COLUMN IN CONTROLEALERT TABLE ---
+
+*********************************************************************************************************************************************************************
+
+-- Disable all foreign key constraints
+EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? NOCHECK CONSTRAINT all';
+
+update Arguments set AlertId='InactiveAll' where AlertId='Inactive'
+update alerts set Id='InactiveAll' , Name='Inactive All' where Id='Inactive'
+update templates set Name='Inactive All Atm' , Title='Inactive All Atm' , Path='Views\Templates\InactiveAllEmailTpl.html' , SmsContent='Inactive All Atm' where Name='Inactive Atm'
+
+-- Re-enable all foreign key constraints
+EXEC sp_MSforeachtable @command1 = 'ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all';
+
+*********************************************************************************************************************************************************************
+
+------this is the alert and template qeury
+
+INSERT [dbo].[Templates] ([Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr], [Template_pdf]) VALUES (N'Inactive Atm', N'Inactive Atm', N'
+<p><br></p>
+ <div style="border-top: 3px solid #66e522">
+     &nbsp;
+ </div>
+ 
+ <span style="font-family: Arial; font-size: 10pt">
+     Bonjour,<br />
+     <br />
+     {Data}
+     <br />
+     Merci de ne pas répondre à l''adresse ci-dessus.<br />
+     Email envoyé automatiquement par l''équipe Back Office.<br />
+     <br />
+     Merci<br />
+     <span><img src="{Src}"></span>
+ </span>', N'Views\Templates\InactiveEmailTpl.html', NULL, N'Inactive Atm', NULL, NULL)
+
+ *********************************************************************************************************************************************************************
+
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) 
+VALUES (N'Inactive', N'Inactive', N'Now-(Last Transaction Date)>=4h', N'Send Mail', N'AtmView_Inactive', 1, N'MONITORING', (SELECT Id FROM Templates WHERE Name = 'Inactive Atm'), 5, 6000, 1, 0, NULL, 0, N'[{"Name":"MaxNbrOfHours","Label":"Max Number Of Hour","Value":"6","Type":"number"}, {"Name":"AlertControlCheck","Label":"Alert Control Check","Value":"4","Type":"number"}]', 0, 0, 1, NULL, NULL, NULL)
+
+INSERT [dbo].[Arguments] ([ArgName], [ArgValue], [AlertId]) VALUES ( N'Data', N'Table of Inactif Atms', N'Inactive')
+
+*********************************************************************************************************************************************************************
+
+ALTER TABLE ActionCorrective
+ADD EscalatedTo INT NULL,
+	EscalatedEmails NVARCHAR(MAX) NULL,
+    Duration INT NULL;
+
+    	update ActionCorrective set EscalatedTo = 0
+		update ActionCorrective set Duration = 0
+
+*********************************************************************************************************************************************************************
+
+------this is the alert and template qeury
+
+INSERT [dbo].[Templates] ([Name], [Title], [Content], [Path], [Params], [SmsContent], [Content_fr], [Template_pdf]) VALUES (N'Atm Incident Escalation', N'Atm Incident Escalation', N'
+<p><br></p><p><br></p>    
+<div style="border-top: 3px solid #ff0000">        
+    &nbsp;    
+</div>    
+<span style="font-family: Arial; font-size: 10pt">        
+    Objet : Escalade de l''incident ATM,<br>        
+    <br>         
+    Chère équipe,<br>        
+    <br>        
+    ATM <a href="{Atm_Link}">{Atm_Id}</a> a toujours un incident ouvert (Incident-Id : <a href="{bug_link}">{bug_id}</a>) depuis une durée de {Duration} ou plus.<br>        
+    <br>            
+    <thead>            
+    </thead>            
+    <tbody>            
+        Veuillez ne pas répondre à l''adresse ci-dessus.<br>        
+        Email envoyé automatiquement par l''équipe du Back Office.<br>        
+        <br>        
+        Cordialement.<br>    
+    </span><br>
+    <span><img src="{Src}"></span>
+</div>', N'Views\Templates\AtmIncidentEscalationEmailTpl.html', NULL, N'Atm Incident Escalation', NULL, NULL)
+
+ *********************************************************************************************************************************************************************
+
+INSERT [dbo].[Alerts] ([Id], [Name], [Condition], [Action], [Description], [Etat], [Module], [Template_Id], [RiseInterval], [RenotifyInterval], [SendSms], [SendEmail], [JobId], [RiseOnStateChanged], [Parameters], [EmailTo], [EmailCc], [PhoneTo], [Emails], [Phones], [CcEmails]) 
+VALUES (N'AtmIncidentEscalation', N'Atm Incident Escalation', N'', N'Send Mail', N'AtmView_AtmIncidentEscalation', 1, N'MONITORING', (SELECT Id FROM Templates WHERE Name = 'Atm Incident Escalation'), 5, 6000, 1, 0, NULL, 0, NULL, 0, 0, 0, NULL, NULL, NULL)
+
+
+update alerts set Name='Atm Incident' where Id='Incident'
+
+
+
+
+--Adama Modifs for cameras view integration.
+INSERT INTO dbo.Command (Name, Script, Type, NeedArgument, TimeOut, IsJobC...) 
+VALUES 
+('getCameraVideo', 'get video from selected camera', 21, True, 180, False);
+
+
+CREATE TABLE CameraRecordingHistory (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Type NVARCHAR(100),
+    Width INT,
+    Height INT,
+    Fps INT,
+    Codec NVARCHAR(100),
+    OperationSuccess BIT,
+    SizeInMB FLOAT,
+    OperationDate DATETIME,
+    Atm_Id NVARCHAR(128),
+    CONSTRAINT FK_CameraRecordingHistory_Atm FOREIGN KEY (Atm_Id) REFERENCES Atm(Id)
+);
+ALTER TABLE CameraRecordingHistory
+ADD CameraId VARCHAR(100) NULL;
+
+ALTER TABLE CameraRecordingHistory
+ADD "Path" VARCHAR NULL;
+
+
+INSERT INTO dbo.SousMenus (Name_Fr, Name, Lien, Class, Script, Controller, Module, Menu_Id, AdminOnly)
+VALUES ('Vue Caméras', 'Camera View', '/AtmView/AVMonitoring/Monitoring/CameraView', 'Monitoring,CameraView', NULL, '/AVMonitoring/Monitoring', 'MONITORING', 5, 'False');
+
+*********************************************************************************************************************************************************************

@@ -1,0 +1,80 @@
+# REQUEST 1
+
+SELECT 
+    [Limit1].[Id] AS [Id], 
+    [Limit1].[Atm_Id] AS [Atm_Id], 
+    [Limit1].[StartDate] AS [StartDate], 
+    [Limit1].[EndDate] AS [EndDate], 
+    [Limit1].[State_Id] AS [State_Id], 
+    [Limit1].[ActionCorrective_Id] AS [ActionCorrective_Id]
+    FROM   (SELECT DISTINCT 
+        [Extent1].[Atm_Id] AS [Atm_Id]
+        FROM [dbo].[AtmError] AS [Extent1]
+        WHERE ([Extent1].[Atm_Id] IN (N'Atm9', N'Atm103', N'Atm106', N'Atm107', N'Atm112', N'Atm1', N'Atm10', N'Atm102', N'130084015', N'130090012', N'130091010', N'130092026', N'130087018', N'130087026', N'130088016')) AND ([Extent1].[Atm_Id] IS NOT NULL) AND ([Extent1].[EndDate] IS NULL) ) AS [Distinct1]
+    OUTER APPLY  (SELECT TOP (1) [Project2].[Id] AS [Id], [Project2].[Atm_Id] AS [Atm_Id], [Project2].[StartDate] AS [StartDate], [Project2].[EndDate] AS [EndDate], [Project2].[State_Id] AS [State_Id], [Project2].[ActionCorrective_Id] AS [ActionCorrective_Id]
+        FROM ( SELECT 
+            [Extent2].[Id] AS [Id], 
+            [Extent2].[Atm_Id] AS [Atm_Id], 
+            [Extent2].[StartDate] AS [StartDate], 
+            [Extent2].[EndDate] AS [EndDate], 
+            [Extent2].[State_Id] AS [State_Id], 
+            [Extent2].[ActionCorrective_Id] AS [ActionCorrective_Id]
+            FROM [dbo].[AtmError] AS [Extent2]
+            WHERE ([Extent2].[Atm_Id] IN (N'Atm9', N'Atm103', N'Atm106', N'Atm107', N'Atm112', N'Atm1', N'Atm10', N'Atm102', N'130084015', N'130090012', N'130091010', N'130092026', N'130087018', N'130087026', N'130088016')) AND ([Extent2].[Atm_Id] IS NOT NULL) AND ([Extent2].[EndDate] IS NULL) AND (([Distinct1].[Atm_Id] = [Extent2].[Atm_Id]) OR (([Distinct1].[Atm_Id] IS NULL) AND ([Extent2].[Atm_Id] IS NULL)))
+        )  AS [Project2]
+        ORDER BY [Project2].[StartDate] DESC ) AS [Limit1]
+
+# REQUEST 2
+
+SELECT TOP (1000) [Id] ,
+       [AlertId] ,
+       [JobCtrlId] ,
+       [ExecutionDate] ,
+       [EmailSended] ,
+       [SmsSended] ,
+       [SendEmailOutput] ,
+       [SendSmsOutput]
+FROM [SiteDemoV5_New].[dbo].[AlertControls]
+ORDER BY ExecutionDate DESC
+
+# REQUEST 3 
+
+SELECT [Extent1].[AtmID] AS [AtmID],
+       [Extent1].[TransactionDate] AS [TransactionDate],
+       [Extent1].[TransactionNumber] AS [TransactionNumber],
+       [Extent1].[AutorisationNumber] AS [AutorisationNumber],
+       [Extent1].[CardNumber] AS [CardNumber],
+       [Extent1].[Rib] AS [Rib],
+       [Extent1].[Type] AS [Type],
+       [Extent1].[Amount] AS [Amount],
+       [Extent1].[Statut] AS [Statut],
+       [Extent1].[isCashPresented] AS [isCashPresented],
+       [Extent1].[isCashTaken] AS [isCashTaken],
+       [Extent1].[isCashRetracted] AS [isCashRetracted],
+       [Extent1].[isCashoutError] AS [isCashoutError],
+       [Extent1].[ExistInHost] AS [ExistInHost],
+       [Extent1].[IsRejected] AS [IsRejected],
+       [Extent1].[TrxPictures] AS [TrxPictures],
+       [Extent1].[Duration] AS [Duration],
+       [Extent1].[ExtraInfos] AS [ExtraInfos],
+       [Extent1].[is_FraudP] AS [is_FraudP],
+       [Extent1].[FraudReason] AS [FraudReason]
+FROM [dbo].[AVTransaction] AS [Extent1]
+WHERE [Extent1].[TransactionDate] > @p__linq__0
+
+# REQUEST 4
+
+SELECT EventType_Id,
+       AVG(cast(duration AS float)) avg_duration INTO #temp
+FROM dbo.Pr_TransactionEvents
+WHERE TransactionDate>=@StartDate
+  AND TransactionDate <=@EnDate
+  AND AtmID IN
+    (SELECT AtmID
+     FROM @UserAtms)
+  AND AtmID NOT IN
+    (SELECT Id
+     FROM Atm
+     WHERE Actif = 0)
+GROUP BY EventType_Id
+
